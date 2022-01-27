@@ -22,7 +22,11 @@ struct PagerTabItemModifier<NavTabView: View>: ViewModifier {
                     let dataStore = self.dataStore
                     DispatchQueue.main.async {
                         let frame = reader.frame(in: .named("PagerViewScrollView"))
-                        index = Int(round(frame.minX / frame.width))
+                        if frame.width.isZero {
+                            index = 0
+                        } else {
+                            index = Int(round(frame.minX / frame.width))
+                        }
                         let tabView = navTabView()
                         let tabViewDelegate = tabView as? PagerTabViewDelegate
                         dataStore.setView(AnyView(tabView), at: index)
